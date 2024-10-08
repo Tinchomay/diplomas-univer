@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Alumno extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'ingreso',
         'ciclo',
         'plantel',
         'licenciatura',
-        'id',
+        'idpwc',
         'nombre',
         'diploma',
         'folio',

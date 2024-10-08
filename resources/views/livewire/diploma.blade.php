@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent='crearDiploma' novalidate class=" w-3/5 mx-auto">
+    <form method="POST" action="{{ route('generarDiploma') }}" class=" md:w-3/5 mx-auto">
         @csrf
         <div class=" mt-4">
             <x-input-label for="nombre" :value="__('Nombre Alumno')" />

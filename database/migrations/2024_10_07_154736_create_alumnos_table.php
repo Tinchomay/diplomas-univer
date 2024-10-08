@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('alumnos', function (Blueprint $table) {
             $table->id();
-            $table->string('ingreso');
-            $table->string('ciclo');
-            $table->string('plantel');
-            $table->string('licenciatura');
-            $table->string('idpwc');
+            $table->string('ingreso')->nullable();
+            $table->string('ciclo')->nullable();
+            $table->string('plantel')->nullable();
+            $table->string('licenciatura')->nullable();
+            $table->string('idpwc')->nullable();
             $table->string('nombre');
             $table->string('diploma');
             $table->string('folio');
             $table->date('fecha');
-            $table->string('nombreAdministrativo');
-            $table->timestamps();
+            $table->string('nombreAdministrativo')->nullable();
         });
     }
 
