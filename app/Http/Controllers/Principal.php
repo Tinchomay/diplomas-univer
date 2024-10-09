@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\AlumnosImport;
-use App\Models\Alumno;
 use Carbon\Carbon;
+use App\Models\Alumno;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Imports\AlumnosImport;
 use Maatwebsite\Excel\Facades\Excel;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Principal extends Controller
 {
@@ -48,7 +49,7 @@ class Principal extends Controller
         $pdf->SetCreator('Agustin Sanchez');
         $pdf->Image(public_path('img/fondo-diploma.png'), 0, 0, 280, 216);
 
-        $pdf->SetFont('Arial', '', 46);
+        $pdf->SetFont('Arial', '', Str::length($request->nombre) > 25 ? 35 : 43);
         $pdf->SetXY(10, 97);
         $pdf->SetTextColor(0, 0, 128);
         $pdf->Cell(0, 25, mb_convert_encoding($request->nombre, 'ISO-8859-1'), 0, 1, 'C');
@@ -63,7 +64,7 @@ class Principal extends Controller
         $pdf->SetTextColor(113, 129, 166);
         $pdf->Cell(0, 0, mb_convert_encoding("Guadalajara, Jalisco, " . $formattedDate, 'ISO-8859-1'), 0, 1, 'C');
 
-        $qrCode = QrCode::format('png')->size(100)->generate($request->folio);
+        $qrCode = QrCode::format('png')->size(100)->generate(utf8_encode($request->nombre) . "-" . $request->folio . "-" . utf8_encode($request->programa) . "-UNIVER" );
         $qrCodeData = 'data:image/png;base64,' . base64_encode($qrCode);
         $qrImage = base64_decode(substr($qrCodeData, strpos($qrCodeData, ',') + 1));
 
@@ -72,7 +73,12 @@ class Principal extends Controller
         file_put_contents($qrPath, $qrImage);
 
         // Insertar el QR en el PDF
-        $pdf->Image($qrPath, 15, 170, 35, 35);
+        $pdf->Image($qrPath, 15, 165, 40, 40);
+
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetXY(14, 208);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Cell(0, 0, $request->folio, 0, 1, 'L');
 
         // Enviar el encabezado para que el navegador sepa que es un PDF
         header('Content-Type: application/pdf');
@@ -105,7 +111,7 @@ class Principal extends Controller
             $pdf->SetCreator('Agustin Sanchez');
             $pdf->Image(public_path('img/fondo-diploma.png'), 0, 0, 280, 216);
 
-            $pdf->SetFont('Arial', '', 46);
+            $pdf->SetFont('Arial', '', Str::length($alumno->nombre) > 25 ? 35 : 43);
             $pdf->SetXY(10, 97);
             $pdf->SetTextColor(0, 0, 128);
             $pdf->Cell(0, 25, mb_convert_encoding($alumno->nombre, 'ISO-8859-1'), 0, 1, 'C');
@@ -120,7 +126,7 @@ class Principal extends Controller
             $pdf->SetTextColor(113, 129, 166);
             $pdf->Cell(0, 0, mb_convert_encoding("Guadalajara, Jalisco, " . $formattedDate, 'ISO-8859-1'), 0, 1, 'C');
 
-            $qrCode = QrCode::format('png')->size(100)->generate($alumno->folio);
+            $qrCode = QrCode::format('png')->size(100)->generate(utf8_encode($alumno->nombre) . "-" . $alumno->folio . "-" . utf8_encode($alumno->diploma) . "-UNIVER");
             $qrCodeData = 'data:image/png;base64,' . base64_encode($qrCode);
             $qrImage = base64_decode(substr($qrCodeData, strpos($qrCodeData, ',') + 1));
 
@@ -129,7 +135,12 @@ class Principal extends Controller
             file_put_contents($qrPath, $qrImage);
 
             // Insertar el QR en el PDF
-            $pdf->Image($qrPath, 15, 170, 35, 35);
+            $pdf->Image($qrPath, 15, 165, 40, 40);
+
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->SetXY(14, 208);
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Cell(0, 0, $alumno->folio, 0, 1, 'L');
 
             unlink($qrPath);
         }
