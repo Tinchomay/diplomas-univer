@@ -1,5 +1,5 @@
 <div>
-    <form method="POST" action="{{ route('generarDiploma') }}" class=" md:w-3/5 mx-auto">
+    <form method="POST" action="{{ route('generarDiploma') }}" class=" md:w-3/5 mx-auto" x-data="{ submitting: false }" @submit="submitting = true">
         @csrf
         <div class=" mt-4">
             <x-input-label for="nombre" :value="__('Nombre Alumno')" />
@@ -26,7 +26,7 @@
 
         </div>
         <div class="mt-6">
-            <button class="inline-flex items-center px-6 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+            <button type="submit" class="inline-flex items-center px-6 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" x-bind:disabled="submitting" x-bind:class="{ 'cursor-not-allowed opacity-50': submitting }">
             Generar Diploma
             </button>
         </div>
