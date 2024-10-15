@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiplomaController;
 use App\Http\Controllers\Principal;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::post('/generar-diploma', [Principal::class, 'generarDiploma'])->middlewar
 //Diplomas
 Route::get('/diplomas', [Principal::class, 'diplomas'])->middleware(['auth', 'verified'])->name('diplomas');
 Route::post('/generarDiplomas', [Principal::class, 'generarDiplomas'])->middleware(['auth', 'verified'])->name('generarDiplomas');
+
+//validacion
+Route::get('/validar', [DiplomaController::class, 'index'])->name('validar');
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

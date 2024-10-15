@@ -20,5 +20,6 @@ class Alumno extends Model
         'folio',
         'fecha',
         'nombreAdministrativo',
+        'uuid'
     ];
 }

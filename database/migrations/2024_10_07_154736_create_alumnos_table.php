@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('diploma');
             $table->string('folio');
             $table->date('fecha');
+            $table->string('uuid');
             $table->string('nombreAdministrativo')->nullable();
         });
     }
